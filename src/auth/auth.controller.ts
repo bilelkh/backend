@@ -14,8 +14,7 @@ export class AuthController {
     @Get('google/callback')
     @UseGuards(AuthGuard('google'))
     googleCallback(@Req() req, @Res() res: Response) {
-        console.log('req.jwt', req.user.jwt);
-        res.redirect('http://localhost:4200/auth/login' + '?token=' + req.user.jwt);
+        res.redirect(`${process.env.FRONTEND_URL}/auth/login` + '?token=' + req.user.jwt);
     }
 
     @Get('me')
