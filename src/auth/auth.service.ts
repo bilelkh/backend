@@ -19,11 +19,11 @@ export class AuthService {
             });
             return newUser.save();
         }
-        const payload = {
-            email: profile.emails[0].value,
-            name: profile.displayName,
-        };
-        const jwt = this.jwtService.sign(payload);
-         return { user, jwt };
+         return user
+    }
+
+    handleLogin(user): string {
+        const payload = { email: user.email, sub: user._id };
+        return this.jwtService.sign(payload, { secret: process.env.JWT_SECRET });
     }
 }
