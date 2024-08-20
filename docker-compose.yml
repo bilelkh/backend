@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ''
+      MONGO_INITDB_ROOT_PASSWORD: ""
+      MONGO_INITDB_DATABASE: testdb
+
+  nestjs:
+    build: .
+    container_name: nestjs
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://mongo:27017/testdb
