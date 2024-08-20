@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  db:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - GOOGLE_CLIENT_ID=your-google-client-id
+      - GOOGLE_CLIENT_SECRET=your-google-client-secret
+      - MONGO_URI=mongodb://db:27017/nest

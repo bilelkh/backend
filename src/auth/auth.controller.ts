@@ -1,0 +1,26 @@
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Request, Response } from 'express';
+import { AuthGuard  as CustomAuthGuard} from './auth.guard';
+@Controller('auth')
+export class AuthController {
+   @Get('google')
+   @UseGuards(AuthGuard('google'))
+    async googleLogin() {
+        console.log("Google login");
+        // Initiates the Google OAuth2 login flow
+     }
+
+    @Get('google/callback')
+    @UseGuards(AuthGuard('google'))
+    googleCallback(@Req() req, @Res() res: Response) {
+        console.log('req.jwt', req.user.jwt);
+        res.redirect('http://localhost:4200/auth/login' + '?token=' + req.user.jwt);
+    }
+
+    @Get('me')
+    @UseGuards(CustomAuthGuard)
+    getProfile(@Req() req) {
+        return req.user;
+    }
+}
